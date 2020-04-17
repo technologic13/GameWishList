@@ -4,26 +4,31 @@ const { validation } = require("../middlewares/validation/validation");
 const Games = require("../controllers/games");
 const {
   addGameSchema,
-  changeGameSchema,
+  updateGameSchema,
 } = require("../middlewares/validation/schemas/games");
 
 const {
   getAllGames,
-  getGameByName,
+  getGameById,
   getGameDesc,
   searchGame,
   addGame,
   deleteGame,
   updateGame,
+  clearGames,
 } = Games;
 
-router.route("/").get(getAllGames).post(validation(addGameSchema), addGame);
+router
+  .route("/")
+  .get(getAllGames)
+  .post(validation(addGameSchema), addGame)
+  .delete(clearGames);
 router
   .route("/:id")
-  .get(getGameByName)
+  .get(getGameById)
   .put(validation(addGameSchema), updateGame)
   .delete(deleteGame)
-  .patch(validation(changeGameSchema), updateGame);
+  .patch(validation(updateGameSchema), updateGame);
 router.get("/:id/desc", getGameDesc);
 router.get("/search/:name", searchGame);
 

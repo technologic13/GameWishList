@@ -1,4 +1,5 @@
 const Game = require("../models/game");
+const Genre = require("../models/genre");
 const sortGames = (a, b, value) => {
   if (a[value] < b[value]) {
     return -1;
@@ -51,10 +52,14 @@ const searchGame = async (req, res, next) => {
   res.status(200).send({ games });
 };
 
-const getGameByName = async (req, res, next) => {
+const getGameById = async (req, res, next) => {
   const { id } = req.params;
   const game = await Game.findById(id);
-  res.status(200).send({ game });
+  if (game.length === 0) {
+    res.status(200).send({ err: "Error has been found!" });
+  } else {
+    res.status(200).send({ game });
+  }
 };
 
 const getGameDesc = async (req, res, next) => {
@@ -73,6 +78,7 @@ const getGameDesc = async (req, res, next) => {
 };
 
 const addGame = async (req, res, next) => {
+  const genre = await Genre.findById(req.body.genre);
   const game = {
     title: req.body.title,
     rating: req.body.rating,
@@ -81,13 +87,17 @@ const addGame = async (req, res, next) => {
     discount: req.body.discount,
     year: req.body.year,
     developer: req.body.developer,
-    genres: req.body.genres,
+    genre: genre,
     publisher: req.body.publisher,
     desc: req.body.desc,
   };
-  const videogame = new Game(game);
-  const save = await videogame.save();
-  res.status(201).send({ message: "Game is saved", game: save });
+  if (genre) {
+    delete game.genre;
+    const videoGame = new Game(game);
+    videoGame.genre = genre;
+    const save = await videoGame.save();
+    res.status(201).send({ message: "Game is saved", game: save });
+  } else res.status(200).send({ error: "Wrong genre" });
 };
 const deleteGame = async (req, res, next) => {
   const { id } = req.params;
@@ -100,13 +110,18 @@ const updateGame = async (req, res, next) => {
   await Game.findByIdAndUpdate(id, update);
   res.status(200).send({ msg: "Game is updated" });
 };
+const clearGames = async (req, res, next) => {
+  await Game.deleteMany();
+  res.status(200).send("No games");
+};
 
 module.exports = {
   getAllGames,
-  getGameByName,
+  getGameById,
   getGameDesc,
   searchGame,
   addGame,
   deleteGame,
   updateGame,
+  clearGames,
 };

@@ -8,7 +8,11 @@ mongoose
   .then(() => console.log("Connected to database..."))
   .catch((err) => console.log(err));
 const games = require("./routes/games");
+const users = require("./routes/users");
+const genres = require("./routes/genres");
 
 app.use("/api/v1/games", games);
+app.use("/api/v1/users", users);
+app.use("/api/v1/genres", genres);
 
 app.listen(port, () => console.log("Server is listening on port 3000"));

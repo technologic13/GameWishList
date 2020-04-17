@@ -8,12 +8,14 @@ const addGameSchema = Joi.object({
   discount: Joi.number().required(),
   year: Joi.number().required(),
   developer: Joi.string().required(),
-  genres: Joi.array().items(Joi.string()),
+  genre: Joi.string()
+    .regex(/^[0-9a-f]{24}$/)
+    .required(),
   publisher: Joi.string().required(),
-  desc: Joi.string().required(),
+  desc: Joi.string(),
 });
 
-const changeGameSchema = Joi.object({
+const updateGameSchema = Joi.object({
   title: Joi.string(),
   rating: Joi.number(),
   reviews: Joi.string(),
@@ -21,9 +23,9 @@ const changeGameSchema = Joi.object({
   discount: Joi.number(),
   year: Joi.number(),
   developer: Joi.string(),
-  genres: Joi.array().items(Joi.string()),
+  genres: Joi.string(),
   publisher: Joi.string(),
   desc: Joi.string(),
 });
 
-module.exports = { addGameSchema, changeGameSchema };
+module.exports = { addGameSchema, updateGameSchema };
