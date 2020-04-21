@@ -5,14 +5,13 @@ const logUser = async (req, res, next) => {
     email: req.body.email,
     password: req.body.password,
   };
-  let user = await User.findOne({ email: LogUserInfo.email });
+  const email = LogUserInfo.email;
+  const password = LogUserInfo.password;
+  let user = await User.findOne({ email: email });
   if (!user) {
     return res.status(400).send("User not found!");
   } else {
-    const validPassword = await bcrypt.compare(
-      LogUserInfo.password,
-      user.password
-    );
+    const validPassword = await bcrypt.compare(password, user.password);
     if (!validPassword) {
       return res.status(400).send("Wrong password!");
     } else {
