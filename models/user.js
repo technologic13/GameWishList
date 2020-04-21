@@ -5,6 +5,8 @@ const user = new Schema({
   surname: String,
   nickname: String,
   age: Number,
+  email: String,
+  password: String,
   wishlist: [
     {
       type: Schema.Types.ObjectId,

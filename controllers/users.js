@@ -5,17 +5,7 @@ const getUsers = async (req, res, next) => {
   const user = await User.find({});
   res.status(200).send({ user });
 };
-const addUser = async (req, res, next) => {
-  const newUser = {
-    name: req.body.name,
-    surname: req.body.surname,
-    nickname: req.body.nickname,
-    age: req.body.age,
-  };
-  const user = new User(newUser);
-  const save = await user.save();
-  res.status(201).send({ message: "User saved!", user: save });
-};
+
 const addToWishlist = async (req, res, next) => {
   const { id } = req.params;
   const { game } = req.body;
@@ -53,7 +43,6 @@ const clearUsers = async (req, res, next) => {
 };
 module.exports = {
   getUsers,
-  addUser,
   addToWishlist,
   getUserById,
   deleteGame,

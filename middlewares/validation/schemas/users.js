@@ -5,6 +5,8 @@ const addUserSchema = Joi.object({
   surname: Joi.string().min(2).required(),
   nickname: Joi.string().min(5).required(),
   age: Joi.number().required(),
+  email: Joi.string().required(),
+  password: Joi.string().required(),
 });
 
 const addWishlistSchema = Joi.object({
