@@ -1,5 +1,6 @@
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 const logUser = async (req, res, next) => {
   const LogUserInfo = {
     email: req.body.email,
@@ -15,7 +16,12 @@ const logUser = async (req, res, next) => {
     if (!validPassword) {
       return res.status(400).send("Wrong password!");
     } else {
-      res.send("Password is valid!");
+      const jwtToken = jwt.sign(
+        { email: user.email, userId: user._id },
+        "hristosvoskrese",
+        { expiresIn: "1h" }
+      );
+      res.status(200).send({ msg: "Login successful!", token: jwtToken });
     }
   }
 };

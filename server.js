@@ -12,11 +12,10 @@ const users = require("./routes/users");
 const genres = require("./routes/genres");
 const login = require("./routes/login");
 const registration = require("./routes/reg");
-
+app.use("/api/v1/login", login);
+app.use("/api/v1/registration", registration);
 app.use("/api/v1/games", games);
 app.use("/api/v1/users", users);
 app.use("/api/v1/genres", genres);
-app.use("/api/v1/login", login);
-app.use("/api/v1/registration", registration);
 
 app.listen(port, () => console.log("Server is listening on port 3000"));
