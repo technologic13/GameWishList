@@ -23,14 +23,14 @@ router
   .route("/")
   .get(auth, getAllGames)
   .post([auth, validation(addGameSchema)], addGame)
-  .delete(clearGames);
+  .delete(auth, clearGames);
 router
   .route("/:id")
   .get(auth, getGameById)
   .put([auth, validation(addGameSchema)], updateGame)
-  .delete(deleteGame)
+  .delete(auth, deleteGame)
   .patch([auth, validation(updateGameSchema)], updateGame);
-router.get("/:id/desc", getGameDesc);
-router.get("/search/:name", searchGame);
+router.route("/:id/desc").get(auth, getGameDesc);
+router.route("/search/:name").get(auth, searchGame);
 
 module.exports = router;
